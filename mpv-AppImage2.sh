@@ -14,9 +14,10 @@ APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releas
 [ -n "$APP" ] && mkdir -p ./"$APP/$APPDIR" && cd ./"$APP/$APPDIR" || exit 1
 
 # USE HELPER SCRIPT FOR BUILDING
-git clone https://github.com/mpv-player/mpv-build.git \
-&& cd ./mpv-build && ./rebuild -j$(nproc) && sudo ./install \
-&& cd .. && mkdir ./usr && cp -r /usr/local/* ./usr && rm -rf ./mpv-build || exit 1
+CURRENTDIR="$(readlink -f "$(dirname "$0")")" # DO NOT MOVE THIS
+git clone https://github.com/mpv-player/mpv-build.git && cd ./mpv-build \
+&& sed -i "s#meson setup build#meson setup build -Dprefix=$CURRENTDIR/usr#g" ./scripts/mpv-config \
+&& ./rebuild -j$(nproc) && ./install && cd .. && rm -rf ./mpv-build || exit 1
 
 # AppRun
 cat >> ./AppRun << 'EOF'
