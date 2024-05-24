@@ -17,9 +17,9 @@ jobs:
     - name: build
       run: |
         sudo apt update
-        sudo apt install equivs libavutil-dev libavcodec-dev libswscale-dev python3-dev cython3 g++ pkg-config nasm git libavfilter-dev
-        sudo apt install libfuse2 libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev yasm intltool autoconf libtool devscripts libass-dev
-        sudo apt install libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev libnotify-dev libc++-dev libplacebo-dev
+        sudo apt install equivs libavutil-dev libavcodec-dev libswscale-dev python3-dev cython3 g++ pkg-config nasm git libavfilter-dev libxmu-dev libxcb-xfixes0-dev libxcb-shm0-dev libpulse-dev
+        sudo apt install libfuse2 libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev yasm intltool autoconf libtool devscripts libass-dev libxcb1-dev libx265-dev libx264-dev libvpx-dev
+        sudo apt install libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev libnotify-dev libc++-dev libplacebo-dev libxkbcommon-dev libxpresent-dev liblua5.2-dev
         sudo apt install ninja-build autotools-dev autoconf automake make build-essential meson
         wget https://raw.githubusercontent.com/Samueru-sama/mpv-AppImage/main/mpv-AppImage.sh
         chmod a+x ./mpv-AppImage.sh
