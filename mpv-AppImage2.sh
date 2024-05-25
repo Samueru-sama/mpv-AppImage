@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# THIS SCRIPTS BUILDS MPV DEPENDENCIES AND MPV STATICALLY USING THIS: https://github.com/mpv-player/mpv-build
+
 set -u
 ARCH=x86_64
 APP=mpv
