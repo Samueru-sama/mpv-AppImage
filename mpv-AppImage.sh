@@ -25,7 +25,7 @@ git clone https://github.com/mpv-player/mpv-build.git && cd ./mpv-build \
 cat >> ./AppRun << 'EOF'
 #!/bin/sh
 CURRENTDIR="$(dirname "$(readlink -f "$0")")"
-"$CURRENTDIR/usr/bin/mpv" "$@"
+"$CURRENTDIR/usr/bin/mpv" --player-operation-mode=pseudo-gui -- "$@"
 EOF
 chmod a+x ./AppRun
 APPVERSION=$(./AppRun --version | awk 'FNR == 1 {print $2}')
