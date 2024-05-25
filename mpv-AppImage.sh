@@ -26,7 +26,7 @@ cat >> ./AppRun << 'EOF'
 #!/bin/sh
 CURRENTDIR="$(dirname "$(readlink -f "$0")")"
 if [ -z "$@" ]; then
-	 "$CURRENTDIR/usr/bin/mpv" --player-operation-mode=pseudo-gui
+	"$CURRENTDIR/usr/bin/mpv" --player-operation-mode=pseudo-gui
 else
 	"$CURRENTDIR/usr/bin/mpv" "$@"
 fi
