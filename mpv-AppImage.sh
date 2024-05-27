@@ -29,6 +29,7 @@ fi
 EOF
 chmod a+x ./AppRun
 APPVERSION=$(./AppRun --version | awk 'FNR == 1 {print $2}')
+cp ./usr/share/icons/hicolor/128x128/apps/mpv.png ./ && ln -s ./mpv.png ./.DirIcon # If not done linuxdeploy will pick the wrong icon
 
 # MAKE APPIMAGE USING FUSE3 COMPATIBLE APPIMAGETOOL
 cd .. && wget "$LINUXDEPLOY" -O linuxdeploy && wget -q "$APPIMAGETOOL" -O ./appimagetool && chmod a+x ./linuxdeploy ./appimagetool \
