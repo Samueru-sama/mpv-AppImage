@@ -24,9 +24,12 @@ jobs:
         sudo apt install ninja-build autotools-dev autoconf automake make build-essential pkg-config python3-pip
         sudo pip3 install packaging meson
         wget https://raw.githubusercontent.com/Samueru-sama/mpv-AppImage/main/mpv-AppImage.sh
-        chmod a+x ./mpv-AppImage.sh
+        wget https://raw.githubusercontent.com/Samueru-sama/mpv-AppImage/main/mpv-appimage-anylinux.sh
+        chmod a+x ./*.sh
         ./mpv-AppImage.sh
         mkdir dist
+        mv *AppImage dist/
+        ./mpv-appimage-anylinux.sh
         mv *AppImage dist/
 
     - name: Upload artifact
