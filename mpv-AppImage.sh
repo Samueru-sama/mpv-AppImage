@@ -40,7 +40,8 @@ mv ./*.AppImage .. && echo "Regular appimage made" || exit 1
 
 # EXPERIMENTAL DEPLOY EVERYTHING MODE. TODO FIX INTERNET ISSUES
 APPDIR="$APPDIR"2
+sed -i 's/Name=mpv/Name=WIP-mpv/g' "$APPDIR"/usr/share/applications/*.desktop
 ./appimagetool --appimage-extract-and-run -s deploy "$APPDIR"/usr/share/applications/*.desktop || exit 1
 sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' "$APPDIR"/AppRun # unsets this since python isn't bundled
-ARCH=x86_64 VERSION="$APPVERSION-WIP-anylinux" ./appimagetool --appimage-extract-and-run -s ./"$APPDIR" || exit 1
+ARCH=x86_64 VERSION="$APPVERSION-anylinux" ./appimagetool --appimage-extract-and-run -s ./"$APPDIR" || exit 1
 [ -n "$APP" ] && mv ./*.AppImage .. && cd .. && rm -rf ./"$APP" && echo "Deploy everything appimage made" || exit 1
