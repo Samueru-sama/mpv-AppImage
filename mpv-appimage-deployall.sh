@@ -33,5 +33,6 @@ sed -i 's/name/Name/g' ./usr/share/applications/*desktop # https://github.com/mp
 # MAKE APPIMAGE USING FUSE3 COMPATIBLE APPIMAGETOOL
 cd .. && wget -q "$APPIMAGETOOL" -O ./appimagetool && chmod a+x ./appimagetool || exit 1
 ./appimagetool --appimage-extract-and-run -s deploy "$APPDIR"/usr/share/applications/*.desktop || exit 1
+sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' "$APPDIR"/AppRun # unsets this since python isn't bundled
 ARCH=x86_64 VERSION="$APPVERSION-deployall" ./appimagetool --appimage-extract-and-run -s ./"$APPDIR" || exit 1
 [ -n "$APP" ] && mv ./*.AppImage .. && cd .. && rm -rf ./"$APP" && echo "All Done!" || exit 1
