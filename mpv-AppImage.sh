@@ -2,13 +2,11 @@
 
 # THIS SCRIPT BUILDS MPV DEPENDENCIES AND MPV STATICALLY USING THIS: https://github.com/mpv-player/mpv-build
 set -u
-ARCH=x86_64
 APP=mpv
 APPDIR="$APP".AppDir
 REPO="https://github.com/mpv-player/mpv-build.git"
 EXEC="$APP"
 
-LINUXDEPLOY="https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-static-x86_64.AppImage"
 APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*x86_64.*mage$' | head -1)
 
 # CREATE DIRECTORIES AND BUILD MPV
@@ -33,6 +31,16 @@ cp ./usr/share/icons/hicolor/128x128/apps/mpv.png ./ && ln -s ./mpv.png ./.DirIc
 sed -i 's/name/Name/g' ./usr/share/applications/*desktop # https://github.com/mpv-player/mpv/pull/14272
 
 # MAKE APPIMAGE USING FUSE3 COMPATIBLE APPIMAGETOOL
-cd .. && wget "$LINUXDEPLOY" -O linuxdeploy && wget -q "$APPIMAGETOOL" -O ./appimagetool && chmod a+x ./linuxdeploy ./appimagetool \
-&& ./linuxdeploy --appdir "$APPDIR" --executable "$APPDIR"/usr/bin/"$EXEC" && VERSION="$APPVERSION" ./appimagetool -s ./"$APPDIR" || exit 1
-[ -n "$APP" ] && mv ./*.AppImage .. && cd .. && rm -rf ./"$APP" && echo "All Done!" || exit 1
+cd .. && cp -r "$APPDIR" "$APPDIR"2 && wget -q "$APPIMAGETOOL" -O ./appimagetool && chmod a+x ./appimagetool || exit 1
+
+./appimagetool --appimage-extract-and-run deploy "$APPDIR"/usr/share/applications/*.desktop || exit 1
+sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' "$APPDIR"/AppRun # unsets this since python isn't bundled
+ARCH=x86_64 VERSION="$APPVERSION" ./appimagetool --appimage-extract-and-run -s ./"$APPDIR" || exit 1
+mv ./*.AppImage .. && echo "Regular appimage made" || exit 1
+
+# EXPERIMENTAL DEPLOY EVERYTHING MODE. TODO FIX INTERNET ISSUES
+APPDIR="$APPDIR"2
+./appimagetool --appimage-extract-and-run -s deploy "$APPDIR"/usr/share/applications/*.desktop || exit 1
+sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' "$APPDIR"/AppRun # unsets this since python isn't bundled
+ARCH=x86_64 VERSION="$APPVERSION-WIP-anylinux" ./appimagetool --appimage-extract-and-run -s ./"$APPDIR" || exit 1
+[ -n "$APP" ] && mv ./*.AppImage .. && cd .. && rm -rf ./"$APP" && echo "Deploy everything appimage made" || exit 1
