@@ -6,8 +6,14 @@ APP=mpv
 APPDIR="$APP".AppDir
 REPO="https://github.com/mpv-player/mpv-build.git"
 EXEC="$APP"
-
 APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*x86_64.*mage$' | head -1)
+
+# make vulkan headers
+wget https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.3.238.tar.gz
+tar fx *tar* && cd Vulkan*
+cmake -S . -B build/
+sudo cmake --install build --prefix '/usr'
+cd .. && rm -rf ./*tar* ./Vulkan*
 
 # CREATE DIRECTORIES AND BUILD MPV
 [ -n "$APP" ] && mkdir -p ./"$APP/$APPDIR" && cd ./"$APP/$APPDIR" || exit 1
