@@ -2,6 +2,8 @@
 
 # THIS SCRIPT BUILDS MPV DEPENDENCIES AND MPV STATICALLY USING THIS: https://github.com/mpv-player/mpv-build
 set -u
+export ARCH=x86_64
+export APPIMAGE_EXTRACT_AND_RUN=1
 APP=mpv
 APPDIR="$APP".AppDir
 REPO="https://github.com/mpv-player/mpv-build.git"
@@ -32,22 +34,22 @@ else
 fi
 EOF
 chmod a+x ./AppRun
-APPVERSION=$(./AppRun --version | awk 'FNR == 1 {print $2}')
+export VERSION=$(./AppRun --version | awk 'FNR == 1 {print $2}')
 cp ./usr/share/icons/hicolor/128x128/apps/mpv.png ./ && ln -s ./mpv.png ./.DirIcon # If not done linuxdeploy will pick the wrong icon
-sed -i 's/name/Name/g' ./usr/share/applications/*desktop # https://github.com/mpv-player/mpv/pull/14272
 
 # MAKE APPIMAGE USING FUSE3 COMPATIBLE APPIMAGETOOL
 cd .. && cp -r "$APPDIR" "$APPDIR"2 && wget -q "$APPIMAGETOOL" -O ./appimagetool && chmod a+x ./appimagetool || exit 1
 
-./appimagetool --appimage-extract-and-run deploy "$APPDIR"/usr/share/applications/*.desktop || exit 1
+./appimagetool deploy "$APPDIR"/usr/share/applications/*.desktop || exit 1
 sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' "$APPDIR"/AppRun # unsets this since python isn't bundled
-ARCH=x86_64 VERSION="$APPVERSION" ./appimagetool --appimage-extract-and-run -s ./"$APPDIR" || exit 1
+./appimagetool -s ./"$APPDIR" || exit 1
 mv ./*.AppImage .. && echo "Regular appimage made" || exit 1
 
 # EXPERIMENTAL DEPLOY EVERYTHING MODE. TODO FIX INTERNET ISSUES
 APPDIR="$APPDIR"2
+export VERSION="$VERSION-anylinux"
 sed -i 's/Name=mpv/Name=WIP-mpv/g' "$APPDIR"/usr/share/applications/*.desktop
-./appimagetool --appimage-extract-and-run -s deploy "$APPDIR"/usr/share/applications/*.desktop || exit 1
+./appimagetool -s deploy "$APPDIR"/usr/share/applications/*.desktop || exit 1
 sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' "$APPDIR"/AppRun # unsets this since python isn't bundled
-ARCH=x86_64 VERSION="$APPVERSION-anylinux" ./appimagetool --appimage-extract-and-run -s ./"$APPDIR" || exit 1
+./appimagetool -s ./"$APPDIR" || exit 1
 [ -n "$APP" ] && mv ./*.AppImage .. && cd .. && rm -rf ./"$APP" && echo "Deploy everything appimage made" || exit 1
