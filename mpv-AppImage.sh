@@ -12,7 +12,6 @@ export APPIMAGE_EXTRACT_AND_RUN=1
 REPO="https://github.com/mpv-player/mpv-build.git"
 GOAPPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - \
 	| sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*x86_64.*mage$' | head -1)
-APPIMAGETOOL="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$ARCH.AppImage"
 mkdir -p ./mpv/mpv.AppDir && cd ./mpv/mpv.AppDir || exit 1
 
 # Build mpv
@@ -25,16 +24,13 @@ if [ ! -d ./usr ]; then
 fi
 
 # make appimage
-VERSION=$(./usr/bin/mpv --version 2>/dev/null | awk 'FNR==1 {print $2}')
+export VERSION=$(./usr/bin/mpv --version 2>/dev/null | awk 'FNR==1 {print $2}')
 [ -z "$VERSION" ] && echo "ERROR: Could not get version from mpv" && exit 1
 cd .. 
-[ ! -f ./go-appimagetool ] &&  { wget -q "$GOAPPIMAGETOOL" -O ./go-appimagetool || exit 1; }
-[ ! -f ./appimagetool ] && { wget -q "$APPIMAGETOOL" -O ./appimagetool || exit 1; }
+[ ! -f ./go-appimagetool ] && { wget -q "$GOAPPIMAGETOOL" -O ./go-appimagetool || exit 1; }
 chmod +x ./*tool ./zsyncmake
 ./go-appimagetool -s deploy ./mpv.AppDir/usr/share/applications/*.desktop || exit 1
 sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' ./mpv.AppDir/AppRun
-./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 1 \
-  -u "gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|mpv-AppImage|continuous|mpv-*$ARCH.AppImage.zsync" \
-  ./mpv.AppDir mpv-"$VERSION"-"$ARCH".AppImage 
+./go-appimagetool -s ./mpv.AppDir || exit 1
 mv ./*.AppImage* .. && cd .. && rm -rf ./mpv || exit 1
 echo "All done!"
