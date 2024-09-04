@@ -28,7 +28,7 @@ export VERSION=$(./usr/bin/mpv --version 2>/dev/null | awk 'FNR==1 {print $2}')
 [ -z "$VERSION" ] && echo "ERROR: Could not get version from mpv" && exit 1
 cd .. 
 [ ! -f ./go-appimagetool ] && { wget -q "$GOAPPIMAGETOOL" -O ./go-appimagetool || exit 1; }
-chmod +x ./*tool ./zsyncmake
+chmod +x ./*tool
 ./go-appimagetool -s deploy ./mpv.AppDir/usr/share/applications/*.desktop || exit 1
 sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' ./mpv.AppDir/AppRun
 ./go-appimagetool -s ./mpv.AppDir || exit 1
