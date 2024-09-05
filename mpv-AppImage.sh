@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # dependencies: 
-# meson cmake automake ninja ninja-build vulkan-headers freetype-dev libass-dev
+# meson cmake automake ninja ninja-build vulkan-headers freetype-dev libass-dev libtool
 # fribidi-dev harfbuzz-dev yasm libx11 libx11-dev libxinerama-dev libxrandr-dev 
 # libxscrnsaver libxscrnsaver-dev xscreensaver-gl-extras jack libpulse pulseaudio-dev
 # rubberband libcaca mesa-egl libxpresent-dev lua5.3-dev libxcb-dev desktop-file-utils
