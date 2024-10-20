@@ -47,12 +47,12 @@ sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' ./mpv.AppDir/AppRun
 
 # Fix some issue with yt-dlp not working
 # Likely go-appimage breaking something
-for lib in libc.so.6 libdl.so.2 librt.so.1 libpthread.so.0; do
-	rm -f ./mpv.AppDir/lib/x86_64-linux-gnu/"$lib"
-	find / -type f -name "$lib" \
-	  -exec cp {} ./mpv.AppDir/lib/x86_64-linux-gnu ';' -quit 2>/dev/null
-	patchelf --set-rpath '$ORIGIN' ./mpv.AppDir/lib/x86_64-linux-gnu/"$lib"
-done
+#for lib in libc.so.6 libdl.so.2 librt.so.1 libpthread.so.0; do
+#	rm -f ./mpv.AppDir/lib/x86_64-linux-gnu/"$lib"
+#	find / -type f -name "$lib" \
+#	  -exec cp {} ./mpv.AppDir/lib/x86_64-linux-gnu ';' -quit 2>/dev/null
+#	patchelf --set-rpath '$ORIGIN' ./mpv.AppDir/lib/x86_64-linux-gnu/"$lib"
+#done
 cp /lib64/ld-linux-x86-64.so.2 ./mpv.AppDir/lib64/ld-linux-x86-64.so.2 || exit 1
 
 # maybe not needed but I had appimagetool bug out before if the AppDir isnt in the top level of home
