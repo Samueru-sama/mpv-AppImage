@@ -14,6 +14,13 @@ GOAPPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/rele
 	| sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*x86_64.*mage$' | head -1)
 mkdir -p ./mpv/mpv.AppDir && cd ./mpv/mpv.AppDir || exit 1
 
+# make vulkan headers
+wget "https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.3.238.tar.gz"
+tar fx *tar* && cd Vulkan*
+cmake -S . -B build/
+sudo cmake --install build --prefix '/usr'
+cd .. && rm -rf ./*tar* ./Vulkan*
+
 # Build mpv
 if [ ! -d ./usr ]; then
 	CURRENTDIR="$(readlink -f "$(dirname "$0")")"
