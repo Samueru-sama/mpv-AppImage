@@ -63,5 +63,5 @@ mv ./mpv.AppDir ../ && cd ../ || exit 1
 chmod +x ./appimagetool
 ./appimagetool --comp zstd \
 	--mksquashfs-opt -Xcompression-level --mksquashfs-opt 22 \
-	-n -u "$UPINFO" ./puddletag.AppDir puddletag-"$VERSION"-"$ARCH".AppImage
+	-n -u "$UPINFO" ./mpv.AppDir mpv-"$VERSION"-"$ARCH".AppImage
 echo "All done!"
