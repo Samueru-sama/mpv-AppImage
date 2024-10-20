@@ -33,13 +33,13 @@ if [ ! -d ./usr ]; then
 	cp ./usr/share/icons/hicolor/128x128/apps/mpv.png ./ && ln -s ./mpv.png ./.DirIcon
 fi
 
-# make appimage
 export VERSION=$(./usr/bin/mpv --version 2>/dev/null | awk 'FNR==1 {print $2}')
 [ -z "$VERSION" ] && echo "ERROR: Could not get version from mpv" && exit 1
-cd .. 
+
+# bundle appdir
+cd ..
 [ ! -f ./go-appimagetool ] && { wget -q "$GOAPPIMAGETOOL" -O ./go-appimagetool || exit 1; }
-[ ! -f ./appimagetool ]    && { wget -q "$APPIMAGETOOL" -O ./appimagetool || exit 1; }
-chmod +x ./*tool
+chmod +x ./go-appimagetool
 ./go-appimagetool -s deploy ./mpv.AppDir/usr/share/applications/*.desktop || exit 1
 
 # disable this since we are not shipping python
@@ -49,14 +49,18 @@ sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' ./mpv.AppDir/AppRun
 # Likely go-appimage breaking something
 for lib in libc.so.6 libdl.so.2 librt.so.1 libpthread.so.0; do
 	rm -f ./mpv.AppDir/usr/lib/x86_64-linux-gnu/"$lib"
-	find / -type f -name "$lib" -exec cp {} ./mpv.AppDir/usr/lib/x86_64-linux-gnu ';' -quit 2>/dev/null
+	find /usr/lib -type f -name "$lib" \
+	  -exec cp {} ./mpv.AppDir/usr/lib/x86_64-linux-gnu ';' -quit 2>/dev/null
 	patchelf --set-rpath '$ORIGIN' ./mpv.AppDir/usr/lib/x86_64-linux-gnu/"$lib"
 done
 cp /lib64/ld-linux-x86-64.so.2 ./mpv.AppDir/lib64/ld-linux-x86-64.so.2
 
-# maybe not needed but I had appimagetool bug out before if the AppDir isnt in the top leve of home
+# maybe not needed but I had appimagetool bug out before if the AppDir isnt in the top level of home
 mv ./mpv.AppDir ../ && cd ../ || exit 1
 
+# make appimage
+[ ! -f ./appimagetool ] && { wget -q "$APPIMAGETOOL" -O ./appimagetool || exit 1; }
+chmod +x ./appimagetool
 ./appimagetool --comp zstd \
 	--mksquashfs-opt -Xcompression-level --mksquashfs-opt 22 \
 	-n -u "$UPINFO" ./puddletag.AppDir puddletag-"$VERSION"-"$ARCH".AppImage
