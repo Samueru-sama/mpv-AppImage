@@ -53,7 +53,7 @@ for lib in libc.so.6 libdl.so.2 librt.so.1 libpthread.so.0; do
 	  -exec cp {} ./mpv.AppDir/lib/x86_64-linux-gnu ';' -quit 2>/dev/null
 	patchelf --set-rpath '$ORIGIN' ./mpv.AppDir/lib/x86_64-linux-gnu/"$lib"
 done
-cp /lib64/ld-linux-x86-64.so.2 ./mpv.AppDir/lib64/ld-linux-x86-64.so.2
+cp /lib64/ld-linux-x86-64.so.2 ./mpv.AppDir/lib64/ld-linux-x86-64.so.2 || exit 1
 
 # maybe not needed but I had appimagetool bug out before if the AppDir isnt in the top level of home
 mv ./mpv.AppDir ../ && cd ../ || exit 1
