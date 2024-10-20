@@ -13,6 +13,7 @@ REPO="https://github.com/mpv-player/mpv-build.git"
 GOAPPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - \
 	| sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*x86_64.*mage$' | head -1)
 APPIMAGETOOL="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
+UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|mpv-AppImage|latest|*$ARCH.AppImage.zsync"
 rm -rf ./mpv 2>/dev/null
 mkdir -p ./mpv/mpv.AppDir && cd ./mpv/mpv.AppDir || exit 1
 
