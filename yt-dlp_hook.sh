@@ -11,7 +11,7 @@ if echo "$@" | grep -q "^http" && ! command -v yt-dlp >/dev/null 2>&1; then
 	if command -v wget >/dev/null 2>&1; then
 		wget -q "$YT" -O "$CACHEDIR"/mpv-appimage_yt-dlp/yt-dlp
 	elif command -v curl >/dev/null 2>&1; then
-		curl -s "$YT" -o "$CACHEDIR"/mpv-appimage_yt-dlp/yt-dlp
+		curl -Ls "$YT" -o "$CACHEDIR"/mpv-appimage_yt-dlp/yt-dlp
 	else
 		echo "ERROR: You need wget or curl in order to download yt-dlp"
 	fi
