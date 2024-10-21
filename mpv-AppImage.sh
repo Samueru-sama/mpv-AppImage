@@ -41,10 +41,6 @@ sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' ./mpv.AppDir/AppRun
 # make AppRun source the yt-dlp hook
 sed -i '7i\. "$HERE"/yt-dlp_hook.sh' ./mpv.AppDir/AppRun
 
-# Fix some issue with yt-dlp not working
-# Likely go-appimage breaking something
-cp /lib64/ld-linux-x86-64.so.2 ./mpv.AppDir/lib64/ld-linux-x86-64.so.2 || exit 1
-
 # go appimage is not stripping the main binary
 strip --strip-unneeded ./mpv.AppDir/usr/bin/mpv || exit 1
 
