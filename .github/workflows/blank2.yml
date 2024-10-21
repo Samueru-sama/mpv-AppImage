@@ -32,24 +32,3 @@ jobs:
       with:
         name: mpv-x86_64.AppImage
         path: 'dist'
-        
-  release:
-      needs: [build]
-      permissions: write-all
-      runs-on: ubuntu-latest
-
-      steps:
-        - uses: actions/download-artifact@v4
-          with:
-            name: mpv-x86_64.AppImage
-
-        - name: release
-          uses: marvinpinto/action-automatic-releases@latest
-          with:
-            title: Continuous build
-            automatic_release_tag: continuous
-            prerelease: false
-            draft: false
-            files: |
-              *.AppImage*
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
