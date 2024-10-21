@@ -3,7 +3,7 @@
 # Download yt-dlp if needed
 CACHEDIR="${XDG_CACHE_HOME:-$HOME/.cache}"
 export PATH="$PATH:$CACHEDIR/mpv-appimage_yt-dlp"
-if echo "$@" | grep -q "^http" && ! command -v yt-dlp >/dev/null 2>&1; then
+if echo "$@" | grep -q "http" && ! command -v yt-dlp >/dev/null 2>&1; then
 	echo "Video link detected but yt-dlp is not installed, installing..."
 	mkdir -p "$CACHEDIR"/mpv-appimage_yt-dlp
 	YT=$(curl -Ls https://api.github.com/repos/yt-dlp/yt-dlp/releases \
