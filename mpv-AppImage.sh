@@ -15,7 +15,7 @@ GOAPPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/rele
 APPIMAGETOOL="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
 UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|mpv-AppImage|latest|*$ARCH.AppImage.zsync"
 rm -rf ./mpv 2>/dev/null
-mkdir -p ./mpv/mpv.AppDir && cd ./mpv/mpv.AppDir || exit 1
+mkdir -p ./mpv/mpv.AppDir && cp ./yt-dlp_hook.sh ./mpv/mpv.AppDir && cd ./mpv/mpv.AppDir || exit 1
 
 # Build mpv
 if [ ! -d ./usr ]; then
@@ -38,9 +38,8 @@ chmod +x ./go-appimagetool
 # disable this since we are not shipping python
 sed -i 's/export PYTHONHOME/#export PYTHONHOME/g' ./mpv.AppDir/AppRun
 
-# Fix some issue with yt-dlp not working
-# Likely go-appimage breaking something
-cp /lib64/ld-linux-x86-64.so.2 ./mpv.AppDir/lib64/ld-linux-x86-64.so.2 || exit 1
+# make AppRun source the yt-dlp hook
+sed -i '7i\. "$HERE"/yt-dlp_hook.sh' ./mpv.AppDir/AppRun
 
 # go appimage is not stripping the main binary
 strip --strip-unneeded ./mpv.AppDir/usr/bin/mpv || exit 1
