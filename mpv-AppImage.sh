@@ -15,7 +15,7 @@ GOAPPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/rele
 APPIMAGETOOL="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
 UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|mpv-AppImage|latest|*$ARCH.AppImage.zsync"
 rm -rf ./mpv 2>/dev/null
-mkdir -p ./mpv/mpv.AppDir && cd ./mpv/mpv.AppDir || exit 1
+mkdir -p ./mpv/mpv.AppDir && cp ./yt-dlp_hook.sh ./mpv/mpv.AppDir && cd ./mpv/mpv.AppDir || exit 1
 
 # Build mpv
 if [ ! -d ./usr ]; then
