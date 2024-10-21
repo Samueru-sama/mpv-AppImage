@@ -17,13 +17,6 @@ UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|mpv-AppImage|latest|*$ARCH.Ap
 rm -rf ./mpv 2>/dev/null
 mkdir -p ./mpv/mpv.AppDir && cd ./mpv/mpv.AppDir || exit 1
 
-# make vulkan headers
-wget "https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.3.238.tar.gz"
-tar fx *tar* && cd Vulkan*
-cmake -S . -B build/
-sudo cmake --install build --prefix '/usr'
-cd .. && rm -rf ./*tar* ./Vulkan*
-
 # Build mpv
 if [ ! -d ./usr ]; then
 	CURRENTDIR="$(readlink -f "$(dirname "$0")")"
