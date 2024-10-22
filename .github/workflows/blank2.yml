@@ -18,7 +18,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install libxpresent-dev libpulse-dev libxcb-shm0-dev libvpx-dev \
-        liblua5.2-dev libxkbcommon-devlibxcb-xfixes0-dev equivs libavutil-dev \
+        liblua5.2-dev libxkbcommon-dev libxcb-xfixes0-dev equivs libavutil-dev \
         libavcodec-dev libswscale-dev python3-dev cython3 g++ nasm yasm git \
         libavfilter-dev libxmu-dev libxcb1-dev libdbus-1-dev libx11-dev \
         libxinerama-dev libxrandr-dev intltool libtool libwayland-dev \
