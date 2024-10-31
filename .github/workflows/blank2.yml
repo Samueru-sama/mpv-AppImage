@@ -17,7 +17,7 @@ jobs:
 
     - name: build
       run: |
-        apk add coreutils bash wget git build-base autoconf automake libtool yasm \
+        apk add coreutils bash wget git build-base autoconf automake libtool nasm \
         libx11-dev fribidi-dev freetype-dev harfbuzz-dev libxinerama-dev \
         libxrandr-dev freetype-dev alsa-lib-dev ffmpeg-dev jack-dev libao-dev \
         libarchive-dev libass-dev libbluray-dev libcaca-dev \
