@@ -22,9 +22,11 @@ jobs:
         libcdio-paranoia-dev libdvdnav-dev libplacebo-dev libsixel-dev libva-dev \
         libxext-dev libxinerama-dev libxkbcommon-dev libxpresent-dev libxrandr-dev \
         libxscrnsaver-dev libxv-dev mesa-dev meson pipewire-dev pulseaudio-dev \
-        py3-docutils rubberband-dev shaderc-dev sndio-dev uchardet-dev \
+        py3-docutils rubberband-dev shaderc-dev sndio-dev uchardet-dev ninja-build \
         vulkan-headers vulkan-loader-dev wayland-dev wayland-protocols \
         zimg-dev zlib-dev luajit-dev lua5.3-dev libxcb-dev desktop-file-utils
+
+        ln -sf /usr/lib/ninja-build/bin/ninja /usr/bin/ninja
 
         chmod a+x ./mpv-AppImage.sh && ./mpv-AppImage.sh
         mkdir dist
