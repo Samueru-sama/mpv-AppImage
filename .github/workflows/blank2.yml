@@ -10,22 +10,21 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
+    container: alpine:latest
     steps:
     - uses: actions/checkout@v4
 
     - name: build
       run: |
-        sudo apt update
-        sudo apt install libxpresent-dev libpulse-dev libxcb-shm0-dev libvpx-dev \
-        liblua5.2-dev libxkbcommon-dev libxcb-xfixes0-dev equivs libavutil-dev \
-        libavcodec-dev libswscale-dev python3-dev cython3 g++ nasm yasm git \
-        libavfilter-dev libxmu-dev libxcb1-dev libdbus-1-dev libx11-dev \
-        libxinerama-dev libxrandr-dev intltool libtool libwayland-dev \
-        wayland-protocols devscripts libass-dev libx264-dev libxss-dev \
-        libglib2.0-dev libpango1.0-dev binutils libxdg-basedir-dev libnotify-dev \
-        libc++-dev libplacebo-dev libx265-dev ninja-build meson autotools-dev \
-        autoconf automake make build-essential pkg-config desktop-file-utils zsync
+        apk add coreutils bash wget git build-base alsa-lib-dev ffmpeg-dev \
+        jack-dev libao-dev libarchive-dev libass-dev libbluray-dev libcaca-dev \
+        libcdio-paranoia-dev libdvdnav-dev libplacebo-dev libsixel-dev libva-dev \
+        libxext-dev libxinerama-dev libxkbcommon-dev libxpresent-dev libxrandr-dev \
+        libxscrnsaver-dev libxv-dev mesa-dev meson pipewire-dev pulseaudio-dev \
+        py3-docutils rubberband-dev shaderc-dev sndio-dev uchardet-dev \
+        vulkan-headers vulkan-loader-dev wayland-dev wayland-protocols \
+        zimg-dev zlib-dev luajit-dev lua5.3-dev libxcb-dev desktop-file-utils
 
         chmod a+x ./mpv-AppImage.sh && ./mpv-AppImage.sh
         mkdir dist
@@ -51,9 +50,9 @@ jobs:
           uses: marvinpinto/action-automatic-releases@latest
           with:
             title: Continuous build
-            automatic_release_tag: continuous
+            automatic_release_tag: test
             prerelease: false
-            draft: false
+            draft: true
             files: |
               *.AppImage*
             repo_token: ${{ secrets.GITHUB_TOKEN }}
