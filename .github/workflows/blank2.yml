@@ -53,7 +53,7 @@ jobs:
             title: Continuous build
             automatic_release_tag: continuous
             prerelease: false
-            draft: false
+            draft: true
             files: |
               *.AppImage*
             repo_token: ${{ secrets.GITHUB_TOKEN }}
