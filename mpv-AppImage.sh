@@ -31,7 +31,7 @@ ln -s ./shared ./usr
 # bundle libs
 wget "$LIB4BN" -O ./lib4bin
 chmod +x ./lib4bin
-./lib4bin -p -w -v ./shared/bin/mpv
+./lib4bin -p -w -v -s ./shared/bin/mpv
 VERSION=$(./bin/mpv --version 2>/dev/null | awk 'FNR==1 {print $2; exit}')
 if [ -z "$VERSION" ]; then
 	echo "ERROR: Could not get version from mpv"
