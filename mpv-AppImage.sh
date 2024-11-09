@@ -38,6 +38,8 @@ if [ -z "$VERSION" ]; then
 	exit 1
 fi
 export VERSION
+# HACK
+sed -i 's|/usr|/KEK|g' ./shared/lib/ld-linux-x86-64.so.2
 
 # prepare AppDir
 cp ./usr/share/applications/*.desktop ./
