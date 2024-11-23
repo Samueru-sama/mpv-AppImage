@@ -80,7 +80,7 @@ wget -q "$APPIMAGETOOL" -O ./appimagetool
 chmod +x ./appimagetool
 ./appimagetool --comp zstd \
 	--mksquashfs-opt -Xcompression-level --mksquashfs-opt 22 \
-	-n -u "$UPINFO" "$PWD"/AppDir "$PWD"/mpv-"$VERSION"-"$ARCH".AppImage
+	-n -u "$UPINFO" "$PWD"/AppDir "$PWD"/mpv-"$VERSION"-anylinux-"$ARCH".AppImage
 mv ./*.AppImage* ../
 cd ..
 echo "All done!"
